@@ -1,0 +1,2 @@
+14000 - 10:39:56: this is a debug message
+14000 - 10:39:56: contents of some_var: rob is awesome

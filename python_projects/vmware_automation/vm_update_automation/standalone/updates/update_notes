@@ -1,0 +1,2 @@
+snaps [list_vms (-lv), list, create, delete] [vm]
+updates [list_vms (-lv), vm, check, update]

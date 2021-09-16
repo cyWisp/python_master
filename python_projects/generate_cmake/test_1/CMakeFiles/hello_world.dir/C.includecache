@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/wisp/Repos/python/generate_cmake/test_1/hello.c
+stdio.h
+-
+
+/home/wisp/Repos/python/generate_cmake/test_1/hello.h
+
+/home/wisp/Repos/python/generate_cmake/test_1/main.c
+hello.h
+/home/wisp/Repos/python/generate_cmake/test_1/hello.h
+

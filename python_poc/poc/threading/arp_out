@@ -1,0 +1,16 @@
+Interface: wlp82s0, type: EN10MB, MAC: 5c:80:b6:88:2b:a1, IPv4: 10.0.0.166
+Starting arp-scan 1.9.7 with 256 hosts (https://github.com/royhills/arp-scan)
+10.0.0.1	90:9d:7d:7a:ef:5f	ARRIS Group, Inc.
+10.0.0.10	d8:31:34:c5:e3:d1	Roku, Inc
+10.0.0.64	00:24:9b:22:91:b0	Action Star Enterprise Co., Ltd.
+10.0.0.53	e0:b9:a5:fd:9b:3d	AzureWave Technology Inc.
+10.0.0.58	0c:2f:b0:9d:9e:8a	Samsung Electronics Co.,Ltd
+10.0.0.127	18:65:71:d5:11:25	Top Victory Electronics (Taiwan) Co., Ltd.
+10.0.0.172	44:8a:5b:86:5b:94	Micro-Star INT'L CO., LTD.
+10.0.0.154	a0:8c:fd:00:af:0c	Hewlett Packard
+10.0.0.174	d4:d2:52:49:da:d1	Intel Corporate
+10.0.0.175	08:05:81:39:35:89	Roku, Inc.
+10.0.0.254	90:9d:7d:7a:ef:60	ARRIS Group, Inc.
+
+11 packets received by filter, 0 packets dropped by kernel
+Ending arp-scan 1.9.7: 256 hosts scanned in 2.018 seconds (126.86 hosts/sec). 11 responded

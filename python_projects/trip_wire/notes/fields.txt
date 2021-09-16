@@ -1,0 +1,2 @@
+IP Address	Protocol	Port	MAC Address	    Service		DNS Name	  NetBIOS Name
+x.x.x.x         TCP             22      xx:xx:xx:xx:xx:xx   ssh                 name.domain.com   domain\name

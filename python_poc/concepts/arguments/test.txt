@@ -1,0 +1,8 @@
+this is a test file 
+with several lines that will be read 
+by this program
+if the -v switch is not provided
+you should only see the first 
+four lines. If it is provided,
+you should see the entire text
+that ends right here :)

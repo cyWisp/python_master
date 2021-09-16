@@ -1,0 +1,22 @@
+Interface: wlp82s0, type: EN10MB, MAC: 5c:80:b6:88:2b:a1, IPv4: 10.0.0.166
+Starting arp-scan 1.9.7 with 256 hosts (https://github.com/royhills/arp-scan)
+10.0.0.1	90:9d:7d:7a:ef:5f	ARRIS Group, Inc.
+10.0.0.4	00:0c:29:7a:83:34	VMware, Inc.
+10.0.0.12	50:9a:4c:59:df:13	Dell Inc.
+10.0.0.10	d8:31:34:c5:e3:d1	Roku, Inc
+10.0.0.51	00:0c:29:6a:e0:3c	VMware, Inc.
+10.0.0.79	00:0c:29:b5:a5:96	VMware, Inc.
+10.0.0.55	f4:09:d8:88:f5:29	SAMSUNG ELECTRO-MECHANICS(THAILAND)
+10.0.0.58	0c:2f:b0:9d:9e:8a	Samsung Electronics Co.,Ltd
+10.0.0.154	a0:8c:fd:00:af:0c	Hewlett Packard
+10.0.0.158	00:0c:29:0f:98:79	VMware, Inc.
+10.0.0.176	08:05:81:39:35:89	Roku, Inc.
+10.0.0.138	84:fd:d1:6a:6c:ba	Intel Corporate
+10.0.0.205	04:0e:3c:2c:4d:0e	HP Inc.
+10.0.0.246	00:0c:29:05:81:89	VMware, Inc.
+10.0.0.254	90:9d:7d:7a:ef:60	ARRIS Group, Inc.
+10.0.0.52	b8:8a:ec:37:a7:10	Nintendo Co.,Ltd
+10.0.0.157	7c:89:56:79:19:38	Samsung Electronics Co.,Ltd
+
+17 packets received by filter, 0 packets dropped by kernel
+Ending arp-scan 1.9.7: 256 hosts scanned in 2.000 seconds (128.00 hosts/sec). 17 responded

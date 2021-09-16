@@ -1,0 +1,3 @@
+Windows, TCP, 22, SSH, <description>, <documentation>
+Windows, TCP, 21, FTP, <description>, <documentation>
+Windows, TCP, 135, SMB, <description>, <documentation>

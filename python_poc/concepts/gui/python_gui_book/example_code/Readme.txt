@@ -1,0 +1,1 @@
+The _init_ file would be empty as the user will have to put code in it as per the instructions given in the book.

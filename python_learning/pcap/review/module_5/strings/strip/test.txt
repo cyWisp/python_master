@@ -1,0 +1,4 @@
+this is a test message, with a couple of "quotes", and the like.
+"hi there", there is so much to do
+'these are some more quotes'
+the string "has quotes" because we want to see if we can remove them

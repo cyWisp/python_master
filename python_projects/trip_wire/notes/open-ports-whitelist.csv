@@ -1,0 +1,169 @@
+################################################################################
+#  ===========================================================================
+#   EXAMPLE Whitelist Configuration for:                           OPEN PORTS
+#  ===========================================================================
+#
+#  For information about whitelist configuration, see 'About Whitelisting' in
+#  the Tripwire Whitelist Profiler Implementation Guide.
+#
+#  THE EXAMPLES CONTAINED HEREIN ARE PROVIDED AS A COURTESY, FREE OF CHARGE,
+#  'AS IS' WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING,
+#  BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+#  FOR A PARTICULAR PURPOSE.
+#
+################################################################################
+
+# Header record with three user-defined fields - Process Description, Justification, and Documentation
+Allowed Host(s), Allowed Protocol, Allowed Port(s), Allowed Process Name(s), Process Description, Justification, Documentation
+
+#####
+# Tripwire Enterprise Application
+#####
+
+# This example uses the ANY keyword to whitelist the Tripwire Enterprise agent on all systems. A regular expression is
+# also used to match the process name of 'java' on Linux and Unix systems, and 'java.exe' on Windows systems in the
+# same whitelist entry.
+ANY, TCP, 9898, !^java(.exe)?$, Tripwire Agent, Required by Tripwire Enterprise Java Agent, See Tripwire Enterprise Installation & Maintenance Guide
+
+Tripwire Enterprise Console, UDP, 69, !^java(.exe)?$, TFTP Daemon, Required by Tripwire Enterprise for Network Device Monitoring, See Tripwire Enterprise Installation & Maintenance Guide
+Tripwire Enterprise Console, TCP, 443, !^java(.exe)?$, Secure Sockets Layer protocol, Used for secure communication, Required by Tripwire Enterprise, See Tripwire Enterprise Installation & Maintenance Guide
+Tripwire Enterprise Console, TCP, 5670, !^java(.exe)?$, Axon Bridge, Used for the Axon Bridge service on a Tripwire Enterprise Server, Required by Tripwire Enterprise, See Tripwire Enterprise Installation & Maintenance Guide
+Tripwire Enterprise Console, TCP, 8080, !^java(.exe)?$, WebServices port for Tripwire Enterprise, Required by Tripwire, See Tripwire Enterprise Installation & Maintenance Guide
+Tripwire Enterprise Console, TCP, 9898, !^java(.exe)?$, Tripwire Server Port, Required by Tripwire Enterprise Server, See Tripwire Enterprise Installation & Maintenance Guide
+Tripwire Enterprise Console, TCP, 9899, !^java(.exe)?$, Tripwire Agent, Required by Tripwire Enterprise Agent running on TE Server, See Tripwire Enterprise Installation & Maintenance Guide
+
+#####
+# End Tripwire Enterprise Application
+#####
+
+#####
+# Tripwire Log Center
+#####
+
+# This example sues the ANY keyword for the Allowed Port(s) field, whitelisting this process for any port using TCP
+Tripwire Log Center, TCP, ANY, TripwireBridge.exe, VIA Agent Bridge, Required by Tripwire for VIA agent communication, See Tripwire Log Center User Guide
+Tripwire Log Center, UDP, 162, Tlc.LogManager.Svc.exe, SNMP Processor, Used by Tripwire Log Center to receive and process SNMP traps, See Tripwire Log Center User Guide
+Tripwire Log Center, UDP, 514, Tlc.LogManager.Svc.exe, Syslog Processor, Used by Tripwire Log Center to receive and process Syslog events, See Tripwire Log Center User Guide
+Tripwire Log Center, TCP, 1468, Tlc.LogManager.Svc.exe, Syslog Processor and used by Tripwire Enterprise to send log messages to Tripwire Log Center, Required by Tripwire Log Center, See Tripwire Log Center User Guide
+Tripwire Log Center, TCP, 8091, System, TLC Rest Interface, Required by Tripwire Log Center, See Tripwire Log Center Installation Guide
+Tripwire Log Center, TCP, 8717, Tlc.LogManager.Svc.exe, TLC Manager/Console Connection, Required by Tripwire Log Center, See Tripwire Log Center Installation Guide
+
+#####
+# End Tripwire Log Center
+#####
+
+#####
+# Tripwire IP360 VnE and DP
+#####
+
+Tripwire IP360, TCP, 22, ssh, IP360 SSH access, Required by Tripwire IP360, See the IP360 Administrators Guide
+Tripwire IP360, TCP, 443, https, IP360 Web UI access, Required by Tripwire IP360, See the IP360 Administrators Guide
+#Tripwire IP360, TCP, 5432, postgresql, IP360 VnE Database, Optional Database connectivity, See the IP360 Administrators Guide
+
+#####
+# End Tripwire IP360 VnE and DP
+#####
+
+#####
+#Standard Windows Ports
+#####
+
+## TCP
+# The following example demonstrates whitelisting an open port with its associated service name of 'RpcSs' in the 'Allowed Process Name(s)' field
+Windows, TCP, 135, RpcSs, Microsoft Windows Endpoint Mapper, Used for Domain Name System and Dynamic Host Configuration Protocol and Windows Internet Name Service and Distributed Component Object Model protocols, See https://support.microsoft.com/en-us/kb/832017
+Windows, TCP, 139, System, NETBIOS Session Service, Used for Microsoft Windows networking, See https://support.microsoft.com/en-us/kb/832017
+# The following example demonstrates whitelisting an open port with a regular expression that matches possible associated service names in the 'Allowed Process Name(s)' field
+Windows, TCP, 3389, !(Dnscache|TermService), Microsoft Windows Terminal Services, Used for secure remote connectivity to Windows systems, See https://support.microsoft.com/en-us/kb/832017
+Windows, TCP, 445, System, Microsoft Windows Server Message Block, Used for file and printer sharing for Windows systems, See https://support.microsoft.com/en-us/kb/832017
+Windows, TCP, 5357, System, Microsoft Windows Web Services for Devices, Supports the implementation of client-controlled devices and services per https://support.microsoft.com/en-us/kb/832017, See https://support.microsoft.com/en-us/kb/832017
+Windows, TCP, 5985, System, Windows Remote Management (WinRM), See https://support.microsoft.com/en-us/kb/832017
+Windows, TCP, 47001, System, Microsoft Windows Remote Management Service, Used by Microsoft Windows for remote hardware management, See https://support.microsoft.com/en-us/kb/832017
+Windows, TCP, 49152-65535, lsass.exe, Microsoft Windows Local Security Authority Subsystem Service, Used by Microsoft Windows for the enforcement of security policies, See https://support.microsoft.com/en-us/kb/832017
+# Windows, TCP, 1024-5000, lsass.exe, Microsoft Windows Local Security Authority Subsystem Service, Used by Microsoft Windows for the enforcement of security policies, See https://support.microsoft.com/en-us/kb/832017
+Windows, TCP, 49152-65535, services.exe, Microsoft Windows Windows Service Controller, Used by Microsoft Windows to manage the operation of starting and stopping services, See https://support.microsoft.com/en-us/kb/832017
+Windows, TCP, 49152-65535, svchost.exe, Microsoft Windows Service Host Process / Generic Host Process for Win32 Services, Used by Microsoft Windows for administering dynamically linked library files (DLL files) and other supplementary support applications, See https://support.microsoft.com/en-us/kb/832017
+Windows, TCP, 49152-65535, wininit.exe, Microsoft Windows Start-Up Application, Used by Microsoft Windows to start core background services, See https://support.microsoft.com/en-us/kb/832017
+# Windows, TCP, ANY, lsass.exe, Microsoft Windows Local Security Authority Subsystem Service, Used by Microsoft Windows for the enforcement of security policies, See http://www.processlibrary.com/directory/files/lsass/24751/
+# Windows, TCP, ANY, services.exe, Microsoft Windows Windows Service Controller, Used by Microsoft Windows to manage the operation of starting and stopping services, n/a
+# Windows, TCP, ANY, svchost.exe, Microsoft Windows Service Host Process / Generic Host Process for Win32 Services, Used by Microsoft Windows for administering dynamically linked library files (DLL files) and other supplementary support applications, See http://www.processlibrary.com/directory/files/svchost/24778/
+# Windows, TCP, ANY, wininit.exe, Microsoft Windows Start-Up Application, Used by Microsoft Windows to start core background services, See http://www.processlibrary.com/directory/files/wininit/19065/
+
+## UDP
+Windows, UDP, 123, !^(svchost.exe|ntpd.exe)$, Windows Time, Windows Time (Network Time Protocol), https://support.microsoft.com/en-us/kb/832017
+Windows, UDP, 137-138, System, Microsoft NetBIOS, Standard Windows session programming interface used for many services, See https://support.microsoft.com/en-us/kb/832017
+Windows, UDP, 445, System, Microsoft Windows Server Message Block, Used for file and printer sharing for Windows systems, See https://support.microsoft.com/en-us/kb/832017
+Windows, UDP, 500, lsass.exe, Microsoft Windows support for IPsec ISAKMP, See https://support.microsoft.com/en-us/kb/832017
+Windows, UDP, 546, svchost.exe, Microsoft Windows support for DHCPv6, See https://technet.microsoft.com/en-us/library/dd145321%28v=ws.10%29.aspx
+Windows, UDP, 4500, lsass.exe, Microsoft Windows support for NAT-T, See https://support.microsoft.com/en-us/kb/832017
+Windows, UDP, 5355, svchost.exe, Microsoft Windows support for Link-Local Multicast Name Resolution (LLMNR), See http://blogs.technet.com/b/networking/archive/2010/12/06/disabling-network-discovery-network-resources.aspx
+Windows, UDP, 49152-65535, lsass.exe, Microsoft Windows Local Security Authority Subsystem Service, Used by Microsoft Windows for the enforcement of security policies, See https://support.microsoft.com/en-us/kb/832017
+Windows, UDP, 49152-65535, svchost.exe, Microsoft Windows Service Host Process / Generic Host Process for Win32 Services, Used by Microsoft Windows for administering dynamically linked library files (DLL files) and other supplementary support applications, See https://support.microsoft.com/en-us/kb/832017
+# Windows, UDP, ANY, lsass.exe, Microsoft Windows Local Security Authority Subsystem Service, Used by Microsoft Windows for the enforcement of security policies, See http://www.processlibrary.com/directory/files/lsass/24751/
+# Windows, UDP, ANY, svchost.exe, Microsoft Windows Service Host Process / Generic Host Process for Win32 Services, Used by Microsoft Windows for administering dynamically linked library files (DLL files) and other supplementary support applications, See http://www.processlibrary.com/directory/files/svchost/24778/
+
+### Standard Windows Domain Controller Ports
+
+## TCP
+Domain Controller, TCP, 53, dns.exe, DNS, Supports Domain Name Resolution, https://technet.microsoft.com/en-us/library/dd772723%28v=ws.10%29.aspx
+Domain Controller, TCP, 389, lsass.exe, LDAP, Supports Directory Services including User and Computer Authentication, https://technet.microsoft.com/en-us/library/dd772723%28v=ws.10%29.aspx
+Domain Controller, TCP, 464, lsass.exe, Kerberos Password Change, Supports User and Computer Authentication, https://technet.microsoft.com/en-us/library/dd772723%28v=ws.10%29.aspx
+Domain Controller, TCP, 593, svchost.exe, Remote Procedure Call, RPC over HTTPS endpoint mapper, See https://support.microsoft.com/en-us/kb/832017
+Domain Controller, TCP, 636, lsass.exe, LDAP SSL, Supports Directory Services including User and Computer Authentication, https://technet.microsoft.com/en-us/library/dd772723%28v=ws.10%29.aspx
+Domain Controller, TCP, 3268, lsass.exe, LDAP GC, Supports Directory Services including User and Computer Authentication, https://technet.microsoft.com/en-us/library/dd772723%28v=ws.10%29.aspx
+Domain Controller, TCP, 3269, lsass.exe, LDAP GC SSL, Supports Directory Services including User and Computer Authentication, https://technet.microsoft.com/en-us/library/dd772723%28v=ws.10%29.aspx
+Domain Controller, TCP, 5722, dfsrs.exe, DFSR, Distributed File System Replication (DFSR), https://support.microsoft.com/en-us/kb/832017
+Domain Controller, TCP, 9389, Microsoft.ActiveDirectory.WebServices.exe, Active Directory SOAP interface, AD DS Web Services, https://technet.microsoft.com/en-us/library/dd772723%28v=ws.10%29.aspx
+Domain Controller, TCP, 54402, dfsrs.exe, DFSR, Distributed File System Replication (DFSR), https://support.microsoft.com/en-us/kb/832017
+
+## UDP
+Domain Controller, UDP, 88, lsass.exe, Kerberos, Supports User and Computer Authentication, https://technet.microsoft.com/en-us/library/dd772723%28v=ws.10%29.aspx
+Domain Controller, UDP, 389, lsass.exe, LDAP, Supports Directory Services including User and Computer Authentication, https://technet.microsoft.com/en-us/library/dd772723%28v=ws.10%29.aspx
+Domain Controller, UDP, 464, lsass.exe, Kerberos Password Change, Supports User and Computer Authentication, https://technet.microsoft.com/en-us/library/dd772723%28v=ws.10%29.aspx
+
+### Standard IIS Server Ports
+IIS Servers, TCP, 80, System, Hypertext Transfer Protocol, Default port for web server, Required by web servers, See http://isc.sans.edu/services.html
+IIS Servers, TCP, 443, System, Hypertext Transfer Protocol, Default port for web server, Required by web servers, See http://isc.sans.edu/services.html
+
+### Standard Microsoft SQL Server Ports
+
+Microsoft SQL Servers, TCP, 1433, sqlservr.exe, Microsoft SQL Server, Used by Microsoft SQL Server, http://isc.sans.edu/services.html
+Microsoft SQL Servers, UDP, 1434, sqlbrowser.exe, Microsoft SQL Server Browser, Used by Microsoft SQL Server, http://isc.sans.edu/services.html
+
+#####
+# End Standard Windows Ports
+#####
+
+#####
+# Standard Linux Ports
+#####
+
+## TCP
+Linux, TCP, 22, sshd, Secure Server Daemon, Used for secure remote connectivity for Unix-like systems, See http://isc.sans.edu/services.html
+Linux, TCP, 25, sendmail, Sendmail is a general purpose inter-network email routing facility that supports many kinds of mail-transfer and -delivery methods including the Simple Mail Transfer Protocol (SMTP) used for email transport over the Internet
+Linux, TCP, 111, portmap, Remote Procedure Call portmapper (standard Red Hat Enterprise Linux function), Required by Tripwire Enterprise, See http://isc.sans.edu/services.html
+Linux, TCP, 123, ntpd, Network Time Daemon, JUSTIFICATION NEEDED, DOCUMENTATION NEEDED
+Linux, TCP, 631, cupsd, cupsd is the scheduler for the Common UNIX Printing System., JUSTIFICATION NEEDED, DOCUMENTATION NEEDED
+Linux, TCP, 643, rpc.statd, Implements NSM RPC Protocol, This service is somewhat misnamed since it doesn't actually provide active monitoring as one might suspect. Instead NSM implements a reboot notification service. It is used by the NFS file locking service rpc.lockd to implement lock recovery when the NFS server machine crashes and reboots., JUSTIFICATION NEEDED, DOCUMENTATION NEEDED
+
+## UDP
+Linux, UDP, 68, dhclient, The Internet Systems Consortium DHCP Client provides a means for configuring one or more network interfaces using the Dynamic Host Configuration Protocol BOOTP protocol or if these protocols fail by statically assigning an address, JUSTIFICATION NEEDED, DOCUMENTATION NEEDED
+Linux, UDP, 111, portmap, Remote Procedure Call portmapper (standard Red Hat Enterprise Linux function), Required by Tripwire Enterprise, See http://isc.sans.edu/services.html
+# These entries for rpc.statd contain commas in the description field, so the description field MUST be double-quoted.
+Linux, UDP, 637, rpc.statd, "The rpc.statd server implements the NSM (Network Status Monitor) RPC protocol. This service is somewhat misnamed since it doesn't actually provide active monitoring as one might suspect. Instead\, NSM implements a reboot notification service. It is used by the NFS file locking service to implement lock recovery when the NFS server machine crashes and reboots.", JUSTIFICATION NEEDED, DOCUMENTATION NEEDED
+Linux, UDP, 640, rpc.statd, "The rpc.statd server implements the NSM (Network Status Monitor) RPC protocol. This service is somewhat misnamed since it doesn't actually provide active monitoring as one might suspect. instead\, NSM implements a reboot notification service. It is used by the NFS file locking service to implement lock recovery when the NFS server machine crashes and reboots.", JUSTIFICATION NEEDED, DOCUMENTATION NEEDED
+Linux, UDP, ANY, avahi-daemon, The Avahi mDNS-DNS-SD daemon implements Apples Zeroconf architecture also known as Rendezvous or Bonjour, JUSTIFICATION NEEDED, DOCUMENTATION NEEDED
+
+## Misc Linux Ports
+HT-LINUX, UDP, 514, syslogd, Sylog Port, Used to log network messages, https://tools.ietf.org/html/rfc5424
+
+#####
+# End Standard Linux Ports
+#####
+
+#####
+# Standard Cisco Ports
+#####
+
+Cisco IOS, TCP, 22, ssh, Secure Shell Daemon, Used for secure management of Cisco Devices, http://en.wikipedia.org/wiki/Secure_Shell
+Cisco IOS, TCP, 23, telnet, Telnet Service, Used for administration in low-risk environments ONLY!, http://en.wikipedia.org/wiki/Telnet
+Cisco IOS, TCP, 79, finger, Finger service, Can provide information about users currently logged onto the switch, see http://www.nsa.gov/ia/_files/switches/switch-guide-version1_01.pdf

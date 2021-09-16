@@ -1,0 +1,125 @@
+#!/usr/bin/env python
+import requests, logging
+from calendar import month_name
+from bs4 import BeautifulSoup
+from os import system
+from time import sleep
+from datetime import datetime
+
+F2F = 'https://www.kcm.org/read/faith-to-faith'
+TODAY = str(datetime.today()).split(" ")[0]
+DAY = TODAY.split("-")[2]
+MONTH = int(TODAY.split("-")[1])
+YEAR = TODAY.split("-")[0]
+DATE = f"{DAY} {month_name[MONTH]} {YEAR}"
+
+def configure_logging():
+    format = "%(process)d - %(asctime)s: %(message)s"
+    logging.basicConfig(
+        format=format,
+        datefmt="%H:%M:%S",
+        level=logging.INFO,
+        handlers = [
+            logging.FileHandler('./app.log', 'w', 'utf-8')
+        ]
+    )
+
+def logger(func):
+    def wrapper(*args, **kwargs):
+        return_value = func(*args, **kwargs)
+        logging.info(return_value)
+        return return_value
+    return wrapper
+
+def get_html(url):
+    return requests.get(url).text
+
+def get_content(html):
+    soup = BeautifulSoup(html, 'html.parser')
+    p = soup.findAll('p')
+    return p
+
+def strip_content(p):
+    pars = [i.text for i in p if "Victory" not in i.text and "Kenneth" not in i.text]
+    return pars
+
+def show_content(stripped_content):
+    system('clear')
+    sleep(2)
+
+    print(f"\t\t\t\tDaily devotional for {DATE}\n")
+    print(f"{stripped_content[0]}\n\t\t\t\t\t\t\t\t\t\t~ {stripped_content[1]}\n\n")
+
+    for i in stripped_content[2:-1]:
+        print(i + "\n")
+    
+    print(f"Scripture Reading: {stripped_content[-1]}")
+    return stripped_content[-1]
+
+@logger
+def get_scripture(verse):
+    components = verse.split(" ")
+
+    if len(components) == 2:
+        book = components[0]
+        chapter = components[1].split(":")[0]
+        verse_range = components[1].split(":")[1]
+        verse_url = f"https://www.biblegateway.com/passage/?search={book}+{chapter}%3A{verse_range}&version=AMP"
+    else:
+        book_num = components[0]
+        book = components[1]
+        chapter = components[2].split(":")[0]
+        verse_range = components[2].split(":")[1]
+        verse_url = f"https://www.biblegateway.com/passage/?search={book_num}+{book}+{chapter}%3A{verse_range}&version=AMP"
+
+    return verse_url, verse_range
+
+@logger
+def get_verse_text(verse_url, verse_range):
+    verse_html = get_html(verse_url)
+    start = int(verse_range.split("-")[0])
+    end = int(verse_range.split("-")[1])
+    v_range = [i for i in range(start, end + 1)]
+
+    soup = BeautifulSoup(verse_html, 'html.parser')
+    spans = soup.findAll('span')
+
+    verses = list()
+    for s in spans:
+        verse_number = s.text.split(" ")[0]        
+        for v in v_range:
+            if str(v) in verse_number:
+                verses.append(str(s.text))
+   
+    rem_dups = list()
+    for index, verse in enumerate(verses):
+        if index > 0:
+            test = verse.split(" ")[0]
+            if test == verses[index - 1].split(" ")[0]: continue
+            else: rem_dups.append(verse)
+    del verses  
+
+    return rem_dups
+
+def show_passage(verse, passage):
+    system("clear")
+    sleep(1)
+    
+    print(f"\t\t\t\t*~~~~<|{verse}|>~~~~*\n")
+    for p in passage:
+        print(p + "\n")
+
+if __name__ == '__main__':
+    configure_logging()
+
+    html = get_html(F2F)
+    content = get_content(html)
+    stripped_content = strip_content(content)
+    verse = show_content(stripped_content)
+
+    continue_key = input("\nPress any key to continue...")
+    
+    verse_url, verse_range = get_scripture(verse)
+    passage = get_verse_text(verse_url, verse_range)
+    show_passage(verse, passage)
+	
