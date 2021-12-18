@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Cat Parser</title>
+    <link rel="icon" type="image/png" href="/static/images/favicon.png"/>
+    <link rel="stylesheet" href="/static/css/kb.css"/>
+</head>
+
+<body>
+
+<a href="/"><img src="/static/images/KB-Logo_2c_RGB_300.png" alt="logo"></a>
+
+<h2>Parse QPM's scktomcat 'catalina*.log' to Excel</h2>
+<form method="POST" action="/" enctype="multipart/form-data">
+    <input type="file" name="catalina.log" multiple/>
+    <input type="submit" value="Submit" class="ui-btn"
+           onclick="this.form.submit();
+            this.disabled = true; this.value = 'Processing...';
+            this.style.backgroundColor='#a8e4a0'"
+    >
+</form>
+</body>
+
+</html>

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Cat Parser</title>
+    <link rel="icon" type="image/png" href="/static/images/favicon.png"/>
+    <link rel="stylesheet" href="/static/css/kb.css"/>
+</head>
+
+<body>
+   <div class="center">
+       <div class="logo">
+           <a href="/"><img src="/static/images/KB-Logo_2c_RGB_300.png" alt="logo"></a>
+       </div>
+
+       <hr class="hr_division">
+
+		<a href="{{ url_for('generated', filename=filename) }}" target="blank">
+            {{ filename }}
+            <button class="ui-btn">Download</button>
+        </a>
+
+       <a href="/" style="text-decoration: none"><h2>Back</h2></a>
+   </div>
+
+</body>
+
+</html>
