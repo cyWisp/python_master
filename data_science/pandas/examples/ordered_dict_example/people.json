@@ -1,0 +1,14 @@
+{
+  "rob": {
+    "full_name": "rob daglio",
+    "location": "miami, fl"
+  },
+  "alex": {
+    "full_name": "alex jones",
+    "location": "moscow, Russia"
+  },
+  "sam": {
+    "full_name": "sam hudson",
+    "location": "amsterdam, netherlands"
+  }
+}
