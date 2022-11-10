@@ -53,6 +53,7 @@ class Logger:
 
     def verify_log_level(self):
         try:
+            # Set log level to INFO if invalid log level provided
             if self.log_level.isalpha():
                 if self.log_level not in self.log_levels.keys():
                     self.log_level = 'INFO'
@@ -87,8 +88,3 @@ class Logger:
             handler.addFilter(SystemLogFilter())
 
         return logger
-
-
-
-
-
