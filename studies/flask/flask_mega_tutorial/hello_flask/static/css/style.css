@@ -1,0 +1,20 @@
+.container {
+    background-color:lightgoldenrodyellow;
+    height: 1000px;
+}
+
+.nav {
+    background-color: #69f0ae;
+    height: 100px;
+    margin: 10px 10px 10px 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.content {
+    background-color: lightblue;
+    height: 500px;
+    margin: 10px 10px 10px 10px;
+    border-radius: 5px;
+    text-align: center;
+}
