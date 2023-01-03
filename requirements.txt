@@ -1,6 +1,3 @@
 ConfigArgParse
-flask
-flask-wtf
 requests
-Pillow
-
+aiohttp
