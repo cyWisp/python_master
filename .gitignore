@@ -114,6 +114,7 @@ _venv/
 ENV/
 env.bak/
 venv.bak/
+fast_api_venv/
 
 # Spyder project settings
 .spyderproject
@@ -136,3 +137,6 @@ dmypy.json
 # Pycharm projects
 .idea
 playground/
+
+# Text files
+*.txt
