@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+        {% if title %}
+            <title>{{ title }}</title>
+        {% else %}
+            <title>Welcome to Example 1</title>
+        {% endif %}
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+        <div class="header">
+            <a href="{{ url_for('index') }}">Home</a> |
+            <a href="{{ url_for('about') }}">About</a> |
+            <a href="{{ url_for('table') }}">Table</a>
+        </div>
+
+        {% block content %}
+        {% endblock content %}
+    </body>
+</html>
