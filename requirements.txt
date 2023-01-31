@@ -2,3 +2,5 @@ ConfigArgParse
 requests
 aiohttp
 flask
+pandas
+matplotlib

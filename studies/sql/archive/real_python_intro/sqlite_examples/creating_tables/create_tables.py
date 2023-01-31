@@ -12,6 +12,7 @@ def create_connection(path):
         print("[+] Connection successful...")
         return connection
 
+
 def execute_query(db_conn, query):
     cursor = db_conn.cursor()
     try:

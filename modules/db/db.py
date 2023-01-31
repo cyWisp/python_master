@@ -3,6 +3,8 @@ import sqlite3
 import logging
 import sys
 from sqlite3 import Error, IntegrityError
+import json
+from sqlite3 import Error
 from enum import Enum
 
 logging.basicConfig(
@@ -11,6 +13,16 @@ logging.basicConfig(
 )
 
 log = logging.getLogger()
+
+def read_verses_json():
+    log.debug('Reading json file.')
+    try:
+        with open('verses.json', 'r') as  f:
+            return json.load(f)
+    except Exception as e:
+        log.debug(f'Could not read json file:\n{e}')
+        sys.exit()
+
 
 
 class Queries(Enum):
@@ -57,9 +69,13 @@ class DB:
         except Error as e:
             log.error(f'Query failed to execute:\n{e}')
 
-    def insert_record(self, record):
-        log.debug(f'Inserting new record: {record[0]} | {record[1]}')
-        query = f"INSERT INTO daily_verse (verse_ref, verse_text) values (?, ?);"
+    def insert_record(self, verse_reference, verse_text):
+        log.debug(f'Inserting new record: {verse_reference} | {verse_text}')
+
+        new_record = (verse_reference, verse_text)
+        query = """
+            INSERT INTO daily_verse (verse_ref, verse_text) values (?, ?);
+        """
 
         try:
             self.db_cursor.execute(query, (record[0], record[1]))
@@ -96,26 +112,67 @@ class DB:
             log.error(f'Something went wrong:\n{e}')
             sys.exit()
 
+
+def read_books():
+    log.debug('Reading books file.')
+
+    try:
+        with open('books.json') as f:
+            content = json.load(f)
+            return content
+    except Exception as e:
+        log.error(f'Something went wrong:\n{e}')
+
+
+
+def clean_data(records):
+    log.debug('Cleaning data')
+    cleaned_records = list()
+    books = read_books()
+
+    for r in records:
+        verse_reference = r[1].split('>')[1].split('<')[0] \
+                if '<' in r[1] and '>' in r[1] else r[1]
+
+        if verse_reference.split(' ')[0] in books \
+            or verse_reference.split(' ')[:2] in books:
+
+            if 'in' in verse_reference:
+                cleaned_records.append((' '.join(verse_reference.split(' ')[:-1]), r[2].lstrip(' ')))
+            else:
+                cleaned_records.append((verse_reference, r[2].lstrip(' ').lstrip('\t')))
+        else:
+            continue
+
+    return cleaned_records
+
+
+
 if __name__ == '__main__':
-    log.debug('Starting.')
-    new_db = DB(db_path='/mnt/l/repos/python_master/modules/db/verses.sqlite')
+    verses = read_verses_json()
+
+    log.debug('Creating and Connecting to DB')
+    new_db = DB(db_path='verses.db')
     new_db.execute_query(Queries.CREATE_TABLE.value)
 
-    new_records = [
-        ('test ref1', 'test text1'),
-        ('test ref2', 'test text2'),
-        ('test ref3', 'test text3'),
-        ('test ref4', 'test text4'),
-        ('test ref5', 'test text5')
-    ]
 
-    for r in new_records:
-        new_db.insert_record(r)
+    new_records = [[index + 1, k, v] for index, (k, v) in enumerate(verses.items())]
 
-    # new_db.insert_record(4, 'test ref4', 'test text4', 'test image4')
+    cleaned_records = clean_data(new_records)
 
-    all = new_db.get_all_records()
 
-    log.debug(all)
+    for r in cleaned_records:
+        log.debug(f'{r[0]} | {r[1]}')
+        new_db.insert_record(r[0], r[1])
+
+    # new_db.insert_record('test ref4', 'test text4')
+    #
+    # all_records = new_db.get_all_records()
+    #
+    # log.debug(all_records)
 
     new_db.disconnect()
+
+
+    # for index, (k, v) in enumerate(verses.items()):
+    #     log.debug(f'{index + 1}: {k}: {v}')
