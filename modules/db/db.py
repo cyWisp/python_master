@@ -30,7 +30,8 @@ class Queries(Enum):
         CREATE TABLE IF NOT EXISTS daily_verse (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           verse_ref TEXT NOT NULL,
-          verse_text TEXT
+          verse_text TEXT,
+          UNIQUE(verse_ref, verse_text)
         );
     '''
 

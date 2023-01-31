@@ -1,3 +1,5 @@
 ConfigArgParse
 requests
 aiohttp
+pandas
+matplotlib
