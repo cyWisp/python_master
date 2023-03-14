@@ -4,3 +4,6 @@ aiohttp
 flask
 pandas
 matplotlib
+numpy
+pytest
+
