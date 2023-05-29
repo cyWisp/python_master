@@ -6,4 +6,5 @@ pandas
 matplotlib
 numpy
 pytest
+django
 
