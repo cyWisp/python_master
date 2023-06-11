@@ -32,6 +32,9 @@ if __name__ == '__main__':
     # an instance of the MyClass() object.
     print(MyClass.method(obj))
 
+    print(MyClass.classmethod())
+
+    print(MyClass.class_var)
     MyClass.change_class_state(obj)
     print(MyClass.class_var)
     # ===================================================
