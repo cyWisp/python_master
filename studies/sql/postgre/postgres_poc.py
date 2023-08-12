@@ -26,6 +26,8 @@ class Queries(Enum):
 
     add_user = 'INSERT INTO users (name, age, location) VALUES (%s, %s, %s)'
     query_all_users = "SELECT * FROM users"
+    query_single_user = "SELECT * FROM users WHERE name = %s"
+    query_single_user_by_age = "SELECT * FROM users WHERE age = %s"
 
 class PsyDB:
     def __init__(self, **kwargs):
@@ -82,7 +84,7 @@ class PsyDB:
                 self.cursor = self.connection.cursor()
 
         except OperationalError as e:
-            log.error(f'Not connected to any databse:\n{e}', exc_info=True)
+            log.error(f'Not connected to any database:\n{e}', exc_info=True)
 
     def execute_query(self, query):
         self.verify_connectivity()
@@ -100,6 +102,23 @@ class PsyDB:
         try:
             log.info(f'Writing new user to database: {user_info}')
             self.cursor.execute(Queries.add_user.value, user_info)
+
+        except OperationalError as e:
+            log.error(f'Unable to write to database:\n{e}', exc_info=True)
+
+    def retrieve_data(self, query: str = None, query_params: tuple = None) -> list:
+        self.verify_connectivity()
+
+        try:
+            if not query_params:
+                log.info(f'Retrieving data for query: {query}')
+                self.cursor.execute(query)
+
+            else:
+                log.info(f'Retrieving data for query: {query} | params: {query_params}')
+                self.cursor.execute(query, query_params)
+
+            return self.cursor.fetchall()
 
         except OperationalError as e:
             log.error(f'Unable to write to database:\n{e}', exc_info=True)
@@ -133,7 +152,13 @@ if __name__ == '__main__':
     ) as pdb:
         pdb.execute_query(Queries.create_simple_table.value)
 
-        for user in new_users:
-            pdb.add_user(user)
+        # for user in new_users:
+        #     pdb.add_user(user)
 
+        current_users = pdb.retrieve_data(Queries.query_all_users.value)
+        single_user = pdb.retrieve_data(Queries.query_single_user.value, ('gary',))
+        by_age = pdb.retrieve_data(Queries.query_single_user_by_age.value, (37,))
 
+    log.info(current_users)
+    log.info(single_user)
+    log.info(by_age)
