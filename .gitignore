@@ -134,8 +134,9 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Pycharm projects
-.idea
+# IDE
+.idea/
+.vscode/
 playground/
 
 # Text files
