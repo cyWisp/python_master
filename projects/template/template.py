@@ -18,6 +18,7 @@ log = logging.getLogger()
 
 cfg, unknown = parser.parse_known_args()
 
+
 class Project:
     PROJECT_DIRS = {
         'assets_folder': 'assets',
@@ -44,7 +45,9 @@ class Project:
     </body>
 </html>
 ''',
-        'script': '''function main () {
+        'script': '''\"use strict\";
+    
+function main () {
     console.log("Hello, World!");
 }
         
