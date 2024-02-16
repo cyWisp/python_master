@@ -141,3 +141,6 @@ playground/
 
 # Text files
 *.txt
+
+# Proof of concept directories
+poc/
