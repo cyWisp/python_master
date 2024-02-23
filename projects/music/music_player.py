@@ -106,7 +106,7 @@ if __name__ == '__main__':
 
     # Setting the title, window size, background color and disabling the resizing property
     root.title("Music Player")
-    root.geometry("545x110")
+    root.geometry("800x600")
     root.resizable(False, False)
     root.configure(background = "LIGHTSLATEGRAY")
 
