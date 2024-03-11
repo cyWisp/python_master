@@ -1,13 +1,1 @@
-ConfigArgParse
 requests
-aiohttp
-flask
-pandas
-matplotlib
-numpy
-pytest
-django
-django_rest_framework
-fastapi[all]
-uvicorn[standard]
-fastapi_utils
