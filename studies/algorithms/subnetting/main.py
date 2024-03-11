@@ -24,6 +24,7 @@ logging.basicConfig(
 
 log = logging.getLogger()
 
+
 class MagicNumber:
     def __init__(self, suffix):
         self.suffix = int(suffix.replace('/', ''))
@@ -62,9 +63,9 @@ class MagicNumber:
 
             self.net_mask.append(octet)
 
-
     def display_result(self):
         log.info(f'Network suffix: /{self.suffix} | Subnet Mask: {str(".".join([str(x) for x in self.net_mask]))}')
+
 
 if __name__ == '__main__':
     log.debug(json.dumps(vars(cfg), indent=4))
