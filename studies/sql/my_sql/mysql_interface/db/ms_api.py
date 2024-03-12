@@ -1,10 +1,12 @@
 import logging
+import sys
 import json
 import mysql.connector
-from mysql.connector import Error
+from mysql.connector import Error, InterfaceError
 
-logging.basicConfig(level=logging.INFO)
+
 log = logging.getLogger()
+log.setLevel(logging.INFO)
 
 
 class MSInterface:
@@ -24,6 +26,7 @@ class MSInterface:
 
         self.connection, self.instance = None, instance
         self.cursor = None
+        self.connection_error = False
 
         self.connect()
 
@@ -47,10 +50,11 @@ class MSInterface:
             log.info(f'{query} ->')
 
             if result:
-                log.info(f'{type(result)} | {result}')
+                log.debug(f'{type(result)} | {result}')
                 return result
 
             else:
+                log.debug('Query executed successfully.')
                 return []   # return empty list
 
         except Error as e:
@@ -63,16 +67,20 @@ class MSInterface:
 
         except Error as e:
             log.error(f'Cursor creation failed:\n{e}')
+            sys.exit()
 
     def verify_connection(self):
-        if not self.connection:
-            self.connect()
+        if not self.connection_error:
+            if not self.connection:
+                self.connect()
+        else:
+            sys.exit(1)
 
     def disconnect(self):
         try:
             if self.connection:
                 self.connection.disconnect()
-                log.info('Disconnected from database.')
+                log.debug('Disconnected from database.')
 
         except Error as e:
             log.error(f'Disconnection process failed.\n{e}', exc_info=True)
@@ -86,7 +94,7 @@ class MSInterface:
                     if retry_count == self.MAX_CONNECTION_RETRIES:
                         raise TimeoutError('Max retry count exceeded.')
 
-                    log.info(f'Connecting to {self.host}:{self.port} | Attempt: {retry_count}')
+                    log.debug(f'Connecting to {self.host}:{self.port} | Attempt: {retry_count}')
 
                     self.connection = mysql.connector.connect(
                         host=self.host,
@@ -96,12 +104,17 @@ class MSInterface:
                         database=self.db_name
                     )
 
-                    log.info('Connection succeeded!')
+                    log.debug('Connection succeeded!')
                     break
 
-                except (Error, mysql.connector.InterfaceError, TimeoutError) as e:
-                    log.error(f'Connection failed:\n{e}', exc_info=True)
+                except (Error, InterfaceError) as e:
+                    log.error(f'Connection failed:\n{e}\nRetrying...')
                     retry_count += 1
+
+                except TimeoutError as e:
+                    log.error(f'{e} Terminating operation.')
+                    self.connection_error = True
+                    break
 
 
 if __name__ == '__main__':
@@ -113,8 +126,10 @@ if __name__ == '__main__':
         'password'
     ) as mi:
         log.info(mi.__str__())
-        desc = mi.execute_query('DESCRIBE invoices;')
-        desc = mi.execute_query('SELECT * FROM invoices;')
-        log.info(type(desc))
+        db_description = mi.execute_query('DESCRIBE invoices;')
+        ten_invoices = mi.execute_query('SELECT * FROM invoices LIMIT 0, 10;')
+
+        log.info(json.dumps(db_description, indent=4))
+        log.info(json.dumps(ten_invoices, indent=4))
 
 
