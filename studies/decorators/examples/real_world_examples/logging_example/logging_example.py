@@ -8,12 +8,14 @@ logging.basicConfig(
 	handlers=[logging.StreamHandler()]
 )
 
+
 def log_deco(func):
 	@functools.wraps(func)
 	def wrapper(*args, **kwargs):
 		func(*args, **kwargs)
 		return func(*args, **kwargs)
 	return wrapper
+
 
 @log_deco
 def log_struct(struct):
