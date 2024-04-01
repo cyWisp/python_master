@@ -41,8 +41,6 @@ def get_urls(file_name: str) -> list:
         log.error(f'Unable to read url file:\n{e}', exc_info=True)
 
 
-
-
 def download_multiple_videos(url_list: list) -> None:
     for index, u in enumerate(url_list):
         download_video(u, file_name=f'video-{index + 10}.mp4')
