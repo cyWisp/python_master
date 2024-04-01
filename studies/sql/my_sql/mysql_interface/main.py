@@ -23,6 +23,14 @@ log = logging.getLogger()
 log.debug(json.dumps(vars(cfg), indent=4))
 
 if __name__ == '__main__':
-    log.info('This is just a test')
+    from db.ms_api import MSInterface
 
+    ms_db = MSInterface(
+        'ap',
+        'localhost',
+        'root',
+        'password'
+    )
 
+    ten_invoices = ms_db.execute_query('SELECT * FROM invoices LIMIT 1, 10')
+    log.info(json.dumps(ten_invoices, indent=4))
