@@ -1,5 +1,7 @@
 import requests
 import logging
+import configargparse
+import json
 
 from requests.exceptions import (
     ConnectionError,
@@ -7,11 +9,42 @@ from requests.exceptions import (
     Timeout
 )
 
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+parser = configargparse.get_argument_parser()
+
+parser.add_argument('--log-level', '-l', type=str, required=False, default='info',
+                    help='The logging level for the application - <info, debug, warning, critical>')
+
+parser.add_argument('--url', '-u', type=str, required=False, help='The target URL for the video.')
+parser.add_argument('--output-file', '-o', type=str, required=False, default='video', help='Output file name.')
+
+parser.add_argument('--url-list-file', '-uL', type=str, required=False, default=None,
+                    help='A list of urls in text file format.')
+
+cfg = parser.parse_known_args()[0]
+
+
+logging.basicConfig(
+    level=logging.getLevelName(cfg.log_level.upper()),
+    format='%(process)d - %(asctime)s - %(filename)s - %(funcName)s - %(levelname)s: %(message)s',
+    datefmt='%y-%m-%d %H:%M:%S',
+    handlers=[logging.StreamHandler()]
+)
+
 log = logging.getLogger()
 log.name = 'default'
+APP_VERSION = 'v1.0.0'
+AUTHOR = 'W15P'
 
-TARGET_URL = 'https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/YSvEcxy/videoblocks-lots-of-100-dollars-american-bills-money-banknotes-cash-finance-and-investment-concept-rich-business-economy-of-usa-shooting-at-an-angle-currency-exchange-of-one-hundred-usd-copy-space_hvas6ybdo__117b9e39447cd30553aa6ab2ef7e85a9__P360.mp4'
+
+def show_splash():
+    splash = '''               __ ____   ____.__    .___       
+  ____   _____/  |\\   \ /   /|__| __| _/_______
+ /    \\_/ __ \\   __\\   Y   / |  |/ __ |\\___   /
+|   |  \\  ___/|  |  \\     /  |  / /_/ | /    / 
+|___|  /\\___  >__|   \\___/   |__\\____ |/_____ \\
+     \\/     \\/                       \\/      \\/
+'''
+    log.info('\n' + splash + '\n\t\t\t\t' + APP_VERSION + ' by ' + AUTHOR + '\n')
 
 
 def download_video(url: str, file_name: str = None):
@@ -43,13 +76,27 @@ def get_urls(file_name: str) -> list:
 
 def download_multiple_videos(url_list: list) -> None:
     for index, u in enumerate(url_list):
-        download_video(u, file_name=f'video-{index + 10}.mp4')
+        download_video(u, file_name=f'{cfg.output_file}-{index + 1}.{get_video_file_extension(u)}')
+
+
+def get_video_file_extension(url: str) -> str:
+    return url.split('.')[-1]
+
+
+show_splash()
+log.debug(f'Configuration: {json.dumps(vars(cfg), indent=4)}')
 
 
 if __name__ == '__main__':
-    # download_video(TARGET_URL)
+    try:
+        if not cfg.url_list_file and not cfg.url_list_file:
+            raise ValueError('No URL(s) provided.\nPlease provide either a valid URL, or a list of URLs.')
 
-    # for i in get_urls('scratch.txt'):
-    #     log.info(i)
+        if cfg.url_list_file:
+            download_multiple_videos(get_urls(cfg.url_list_file))
 
-    download_multiple_videos(get_urls('scratch.txt'))
+        if cfg.url:
+            download_video(cfg.url, f'{cfg.output_file}.{get_video_file_extension(cfg.url)}')
+
+    except ValueError as e:
+        log.error(e)
