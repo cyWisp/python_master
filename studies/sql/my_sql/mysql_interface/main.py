@@ -26,7 +26,7 @@ if __name__ == '__main__':
     from db.ms_api import MSInterface
 
     ms_db = MSInterface(
-        'ap',
+        'comic_book_shop_1',
         'localhost',
         'root',
         'password'

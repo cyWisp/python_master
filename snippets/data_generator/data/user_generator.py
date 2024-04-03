@@ -8,9 +8,9 @@ log = logging.getLogger()
 
 class Users:
     def __init__(self) -> None:
-        self.first_names = self.load_data('data/first-names.json')
-        self.last_names = self.load_data('data/last-names.json')
-        self.locations = self.load_data('data/us-cities.json')
+        self.first_names = self.load_data('first-names.json')
+        self.last_names = self.load_data('last-names.json')
+        self.locations = self.load_data('us-cities.json')
 
     def __str_(self):
         return vars(self)
@@ -44,6 +44,6 @@ class Users:
         ]
 
 
-# if __name__ == '__main__':
-#     with Users() as u:
-#         log.info(u.generate_users(5))
+if __name__ == '__main__':
+    with Users() as u:
+        log.info(u.generate_users(5))
