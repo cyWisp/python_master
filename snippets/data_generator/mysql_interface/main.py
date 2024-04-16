@@ -88,25 +88,26 @@ if __name__ == '__main__':
     for r in new_customer_records:
         log.info(json.dumps(r, indent=4))
 
-        query = f'''INSERT INTO `customer` (
-    `customer_first_name`,
-    `customer_last_name`,
-    `customer_address`,
-    `customer_city`,
-    `customer_state`,
-    `customer_zip`,
-    `customer_phone`,
-    `customer_email`
-) VALUES (
-    \'{r["customer_first_name"]}\',
-    \'{r["customer_last_name"]}\',
-    \'{r["customer_address"]}\',
-    \'{r["customer_city"]}\',
-    \'{r["customer_state"]}\',
-    \'{r["customer_zip"]}\',
-    \'{r["customer_phone"]}\',
-    \'{r["customer_email"]}\'
-);'''
+        query = f'''
+        INSERT INTO `customer` (
+            `customer_first_name`,
+            `customer_last_name`,
+            `customer_address`,
+            `customer_city`,
+            `customer_state`,
+            `customer_zip`,
+            `customer_phone`,
+            `customer_email`
+        ) VALUES (
+            \'{r["customer_first_name"]}\',
+            \'{r["customer_last_name"]}\',
+            \'{r["customer_address"]}\',
+            \'{r["customer_city"]}\',
+            \'{r["customer_state"]}\',
+            \'{r["customer_zip"]}\',
+            \'{r["customer_phone"]}\',
+            \'{r["customer_email"]}\'
+        );'''
 
         result = ms_db.execute_query(query)
         log.info(result)
