@@ -44,8 +44,8 @@ def create_customer_records(s_data: dict, num_records: int) -> list:
             'customer_first_name': first_name,
             'customer_last_name': last_name,
             'customer_address': f'{random.randint(1111, 9999)} {random.choice(s_data["street-names"])}',
-            'customer_city': random.choice(s_data['us-cities']),
-            'customer_state': random.choice(s_data['states']),
+            'customer_city': random.choice(s_data['florida-cities']),
+            'customer_state': 'FL',
             'customer_zip': f'{random.randint(11111, 99999)}-{random.randint(1111, 9999)}',
             'customer_phone': f'{random.randint(111, 999)}{random.randint(111, 999)}'
                               f'{random.randint(1111, 9999)}',
@@ -61,7 +61,7 @@ if __name__ == '__main__':
     from db.ms_api import MSInterface
 
     ms_db = MSInterface(
-        'comic_book_shop_1',
+        'comic_book_shop_2',
         'localhost',
         'root',
         'password'
@@ -76,14 +76,14 @@ if __name__ == '__main__':
         'data/last-names.json',
         'data/marvel.json',
         'data/street-names.json',
-        'data/us-cities.json',
+        'data/florida-cities.json',
         'data/words.json',
-        'data/states.json',
+        # 'data/states.json',
         'data/words.json'
     ]
 
     sample_data = load_sample_data(data_files)
-    new_customer_records = create_customer_records(sample_data, 100)
+    new_customer_records = create_customer_records(sample_data, 35)
 
     for r in new_customer_records:
         log.info(json.dumps(r, indent=4))

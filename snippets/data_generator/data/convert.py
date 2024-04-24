@@ -48,3 +48,7 @@ if __name__ == '__main__':
 
     # output_json('last-names.json', convert_title('last-names.json'))
     # output_json(f'{"street-names.txt".split(".")[0]}.json', read_file("street-names.txt"))
+
+    d = [x.split(',')[0] for x in read_file('florida-cities.txt')]
+
+    output_json('florida-cities.json', d)
