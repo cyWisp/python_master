@@ -1,5 +1,4 @@
-from github import Github
-from github import Auth
+from github import Github, Auth
 from main import log
 
 
@@ -40,8 +39,7 @@ class GithubAPI:
         except Exception as e:
             log.error(f'Something went wrong: {e}.')
 
-    def get_commits(self):
-        return self.github_client.search_commits(
-            query='terraform'
-        )
+    def get_releases(self, repo_name):
+        repo = self.github_client.get_repo(repo_name)
+        return repo.get_releases()
 
