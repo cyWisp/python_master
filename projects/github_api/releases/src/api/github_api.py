@@ -1,39 +1,31 @@
 import asyncio
-from github import Github, Auth
+from github import Auth, Github
 from github.GithubException import GithubException
 from main import log
 
 
 class GithubAPI:
-    def __init__(
-        self,
-        token: str = None,
-        repository_name: str = None
-    ):
+    def __init__(self, token: str, repository_name: str, dry_run: bool):
         self.github_client = self._authenticate(token)
-        self.total_available_release_pages = 10000 // 30
         self.releases = self._get_all_releases(repository_name)
 
-        self.release_page_queue = asyncio.Queue()
+        self.dry_run = dry_run
+        self.release_page_queue: asyncio.Queue = asyncio.Queue()
 
     @staticmethod
     def _authenticate(token):
         try:
             log.info('Authenticating.')
+            return Github(auth=Auth.Token(token))
 
-            github_auth = Auth.Token(token)
-            return Github(auth=github_auth)
-
-        except Exception as e:
+        except GithubException as e:
             log.error(f'Something went wrong: {e}.')
 
     # Releases
     def _get_all_releases(self, repo_name: str):
         try:
             log.info(f'Gathering releases for repository {repo_name}.')
-
-            repo = self.github_client.get_repo(repo_name)
-            return repo.get_releases()
+            return self.github_client.get_repo(repo_name).get_releases()
 
         except GithubException as e:
             log.error(f'Exceeded maximum available results (10,000).\n{e}')
@@ -44,15 +36,15 @@ class GithubAPI:
         while True:
             try:
                 log.info(f'Getting all releases in page {count}.')
-                page = self.releases.get_page(count)
 
-                for release in page:
-                    log.info(f'Adding {release.id} | {release.title} to queue.')
+                for release in self.releases.get_page(count):
+                    log.debug(f'Adding {release.id} | {release.title} to queue.')
                     await self.release_page_queue.put({
                         'id': release.id,
                         'title': release.title,
                         'published_at': release.published_at,
-                        'is_draft': release.draft
+                        'is_draft': release.draft,
+                        'object': release
                     })
 
                 count += 1
@@ -62,11 +54,15 @@ class GithubAPI:
                 log.error(f'Exceeded maximum available results.\n{e}')
                 asyncio.current_task().cancel()
 
-    async def _delete_release(self, release_object: dict) -> None:
+    async def _delete_release(self, release: dict) -> None:
         try:
-            if release_object['published_at'] is None and release_object['is_draft']:
-                log.info(f'Deleting {release_object["id"]}.')
-                # TODO: delete release
+            if not release['published_at'] and release['is_draft']:
+                if not self.dry_run:
+                    log.info(f'Deleting {release["id"]}')
+                    release['object'].delete_release()
+
+                else:
+                    log.info(f'To delete: {release["id"]}')
 
         except GithubException as e:
             log.error(e)
@@ -75,10 +71,11 @@ class GithubAPI:
         while True:
             try:
                 current_item = await self.release_page_queue.get()
-                log.info(f'Processing release item {current_item}.')
 
-                log.debug(f'Id: {current_item["id"]} | Title: {current_item["title"]} | '
-                          f'Published: {current_item["published_at"]} | Is Draft: {current_item["is_draft"]}')
+                log.debug(f'Processing - ID: {current_item["id"]}'
+                          f' | Title: {current_item["title"]}'
+                          f' | Published: {current_item["published_at"]}'
+                          f' | Is Draft: {current_item["is_draft"]}')
 
                 await self._delete_release(current_item)
                 self.release_page_queue.task_done()
@@ -88,7 +85,7 @@ class GithubAPI:
 
     async def delete_release_dry_run(self):
         try:
-            log.info('Building and running tasks.')
+            log.debug('Building and running tasks.')
 
             build_queue_task = asyncio.create_task(self._get_release_items())
             process_queue_task = asyncio.create_task(self._process_release_items())

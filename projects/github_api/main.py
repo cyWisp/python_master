@@ -1,10 +1,11 @@
 import logging
 import json
+import asyncio
 
 from config import cfg
 
 logging.basicConfig(
-    format='%(message)s',
+    format='%(process)d - %(asctime)s - %(filename)s - %(funcName)s - %(levelname)s: %(message)s',
     level=logging.getLevelName(cfg.log_level.upper())
 )
 log = logging.getLogger()
@@ -14,34 +15,21 @@ log.debug(f'Configuration: {json.dumps(vars(cfg), indent=4)}')
 if __name__ == '__main__':
     from api.github_api import GithubAPI
 
-    with GithubAPI(cfg.token) as api:
-        # api.display_repository_information()
-        # log.info(api.get_commits().totalCount)
-        releases = api.get_releases('ccsq-qdas/portal')
+    with GithubAPI(cfg.token, repository_name='ccsq-qdas/portal') as api:
+        log.info(api.releases)
+        asyncio.run(api.delete_release_dry_run())
 
-        count = 0
-        pages = []
+        # log.info(f'{dir(releases)}\n{releases.totalCount}')
+        #
+        # time.sleep(5)
+        # page = releases.get_page(1)
+        # log.info(len(page))
 
-        page = releases.get_page(200)
-        for release in page:
-            log.info(f'{release.title} | {release.published_at}')
+        # for release in page:
+        #     log.info(f'{release.title} | {release.published_at} | {release.draft}')
+        #     log.info(dir(release))
 
-        # while True:
-        #     try:
-        #         page = releases.get_page(count)
-        #
-        #         if not page:
-        #             raise IndexError
-        #
-        #         for release in page:
-        #             log.info(f'{release.title} | {release.published_at}')
-        #
-        #         count += 1
-        #
-        #     except IndexError:
-        #         break
-        #
-        # log.info(len(pages))
+
 
 
 
