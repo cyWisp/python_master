@@ -30,12 +30,12 @@ permissions:
 jobs:
   delete_unpublished_releases:
     name: clean releases
-    runs-on: [self-hosted, ado10-dev]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: delete_unpublished_releases
         id: delete_unpublished_releases
-        uses: ccsq-qdas/shared-workflows/actions/releases@master
+        uses: cyWisp/python_master/actions/releases@master
         with:
           repository_name: ${{ inputs.repository_name }}
           python_version: ${{ inputs.python_version }}
