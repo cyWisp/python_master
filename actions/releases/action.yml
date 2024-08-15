@@ -32,8 +32,9 @@ runs:
       working-directory: actions/releases/src
       shell: bash
       run: |
+        pwd; ls
         python -m pip install --upgrade pip
-        if [ -f requirements ]; then python -m pip install -r requirements; fi
+        python -m pip install -r requirements
     - name: Define Environment Variables and Run Application
       working-directory: actions/releases/src
       shell: bash
