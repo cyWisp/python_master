@@ -34,7 +34,7 @@ runs:
       run: |
         pwd; ls
         python -m pip install --upgrade pip
-        python -m pip install -r requirements
+        python -m pip install ConfigArgParse python-dotenv PyGithub
     - name: Define Environment Variables and Run Application
       working-directory: actions/releases/src
       shell: bash
