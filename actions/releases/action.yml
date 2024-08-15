@@ -29,13 +29,13 @@ runs:
       with:
         python-version: ${{ inputs.python_version }}
     - name: Install Dependencies
-      working-directory: cyWisp/python_master/actions/releases/src
+      working-directory: actions/releases/src
       shell: bash
       run: |
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then python -m pip install -r requirements.txt; fi
     - name: Define Environment Variables and Run Application
-      working-directory: cyWisp/python_master/actions/releases/src
+      working-directory: actions/releases/src
       shell: bash
       env:
         LOG_LEVEL: ${{ inputs.log_level }}
