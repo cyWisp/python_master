@@ -144,3 +144,6 @@ playground/
 
 # Proof of concept directories
 poc/
+
+# Local environment
+env.local

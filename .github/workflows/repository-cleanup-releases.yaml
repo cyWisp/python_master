@@ -1,0 +1,44 @@
+---
+name: repository-cleanup-releases
+on:
+  workflow_dispatch:
+    inputs:
+      repository_name:
+        description: 'target repository'
+        required: true
+        type: string
+      python_version:
+        description: 'python version'
+        required: false
+        type: string
+      token:
+        description: 'github token'
+        required: false
+        type: string
+      log_level:
+        description: 'log level'
+        required: false
+        type: string
+      dry_run:
+        description: 'Dry run'
+        required: false
+        type: boolean
+permissions:
+  id-token: write
+  contents: read
+  packages: read
+jobs:
+  delete_unpublished_releases:
+    name: clean releases
+    runs-on: [self-hosted, ado10-dev]
+    steps:
+      - uses: actions/checkout@v4
+      - name: delete_unpublished_releases
+        id: delete_unpublished_releases
+        uses: ccsq-qdas/shared-workflows/actions/releases@master
+        with:
+          repository_name: ${{ inputs.repository_name }}
+          python_version: ${{ inputs.python_version }}
+          token: ${{ github.token }}
+          log_level: ${{ inputs.log_level }}
+          dry_run: ${{ inputs.dry_run }}
