@@ -1,0 +1,48 @@
+name: delete_unpublished_releases
+description: Deletes unpublished releases
+inputs:
+  repository_name:
+    description: 'The target repository.'
+    required: true
+  python_version:
+    description: 'The version of python to use.'
+    required: false
+    default: '3.12'
+  token:
+    description: 'The github token to authenticate with.'
+    required: false
+    default: ${{ github.token }}
+  log_level:
+    description: 'The log level.'
+    required: false
+    default: 'info'
+  dry_run:
+    description: 'Dry run'
+    required: false
+    default: 'True'
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python ${{ inputs.python_version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.python_version }}
+    - name: Install Dependencies
+      working-directory: actions/releases/src
+      shell: bash
+      run: |
+        pwd; ls
+        python -m pip install --upgrade pip
+        python -m pip install ConfigArgParse python-dotenv PyGithub
+    - name: Define Environment Variables and Run Application
+      working-directory: actions/releases/src
+      shell: bash
+      env:
+        LOG_LEVEL: ${{ inputs.log_level }}
+        GIT_TOKEN: ${{ inputs.token }}
+        REPO_NAME: ${{ inputs.repository_name }}
+      run: |
+        python main.py --dry-run ${{ inputs.dry_run }}
+
+
