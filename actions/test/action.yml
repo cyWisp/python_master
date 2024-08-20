@@ -22,7 +22,7 @@ runs:
       shell: bash
       run: |
         python -m pip install --upgrade pip
-        python -m pip install -r dependencies/test/requirements.txt
+        if [ -f "requirements.txt"  ]; then python -m pip install -r requirements.txt; fi
     - name: Run application
       working-directory: actions/test/src
       shell: bash
