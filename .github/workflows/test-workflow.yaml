@@ -1,0 +1,25 @@
+---
+name: Python requirements test workflow
+on:
+  workflow_dispatch:
+    inputs:
+      python_version:
+        description: 'python version'
+        required: false
+        type: string
+      log_level:
+        description: 'log level'
+        required: false
+        type: string
+jobs:
+  run_python_workflow:
+    name: install and run python
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: test_python_workflow
+        id: test
+        uses: cyWisp/python_master/actions/test@master
+        with:
+          python_version: ${{ inputs.python_version }}
+          log_level: ${{ inputs.log_level }}
