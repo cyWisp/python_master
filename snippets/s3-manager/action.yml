@@ -1,0 +1,33 @@
+---
+name: upload_s3
+description: Uploads files to s3
+inputs:
+  AWS_ROLE_ARN:
+    description: 'AWS Access Key ID'
+    required: true
+  AWS_REGION:
+    description: 'AWS Region'
+    required: false
+    default: 'us-east-1'
+  BUCKET_NAME:
+    description: 'Bucket Name'
+    required: true
+  TARGET_DIRECTORY:
+    description: 'Target Directory'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/checkout@v4
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        role-to-assume: ${{ inputs.AWS_ROLE_ARN }}
+        aws-region: ${{ inputs.AWS_REGION }}
+    - name: Clear s3 bucket
+      shell: bash
+      run: aws s3 rm "s3://${{ inputs.BUCKET_NAME }}" --recursive
+    - name: Upload build to s3
+      working-directory: ./
+      shell: bash
+      run: aws s3 cp app/build "s3://${{ inputs.BUCKET_NAME }}" --recursive

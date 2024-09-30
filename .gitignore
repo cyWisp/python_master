@@ -140,7 +140,7 @@ dmypy.json
 playground/
 
 # Text files
-*.txt
+#*.txt
 
 # Proof of concept directories
 poc/
