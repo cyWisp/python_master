@@ -1,0 +1,25 @@
+IP ADDRESSES:
+192.168.251.130
+192.168.251.128
+192.168.251.133
+192.168.251.134
+
+1. Start and List 
+	- Start all virtual machines
+	- List and get running vms
+
+	*** check os! ***
+	connect via SSH
+
+2. Run update and list upgradable modules: 
+	echo "DEFCONwasFUN1985$" | sudo -S apt update
+	sudo apt list --upgradable -a
+3. 
+
+Standalone scripts
+
+1. Start All
+2. Query Patch Levels
+3. Query Snap Shots
+
+vmrun 

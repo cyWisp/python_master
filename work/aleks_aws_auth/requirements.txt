@@ -1,0 +1,6 @@
+boto3
+requests
+defusedxml
+beautifulsoup4
+onepassword
+configargparse

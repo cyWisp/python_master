@@ -1,0 +1,3 @@
+ConfigArgParse
+python-dotenv
+PyGithub
