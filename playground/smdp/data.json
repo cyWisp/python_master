@@ -1,0 +1,60 @@
+{
+    "inventory" : [
+        {
+            "name": "Yogurt",
+            "type": "FOOD",
+            "price": 4.00,
+            "deal": false,
+            "discount": 0.0
+        },
+        {
+            "name": "Bread",
+            "type": "FOOD",
+            "price": 7.00,
+            "deal": false,
+            "discount": 0.0
+        },
+        {
+            "name": "Eggs",
+            "type": "FOOD",
+            "price": 5.00,
+            "deal": false,
+            "discount": 0.0
+        },
+        {
+            "name": "Bacon",
+            "type": "FOOD",
+            "price": 2.00,
+            "deal": true,
+            "discount": 0.5
+        },
+        {
+            "name": "Bat",
+            "type": "SPORT",
+            "price": 150.00,
+            "deal": false,
+            "discount": 0.0
+        },
+        {
+            "name": "Glove",
+            "type": "SPORT",
+            "price": 75.00,
+            "deal": false,
+            "discount": 0.0
+        },
+        {
+            "name": "Driver",
+            "type": "SPORT",
+            "price": 350.00,
+            "deal": true,
+            "discount": 0.2
+        },
+        {
+            "name": "Goldfish",
+            "type": "PETS",
+            "price": 20.00,
+            "deal": false,
+            "discount": 0.0
+        }
+    ]
+}
