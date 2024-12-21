@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "rest-api-example"
+version = "0.1.0"
+description = ""
+authors = ["cywisp <cywisp@gmail.com>"]
+readme = "README.md"
+packages = [{include = "rest_api_example", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+djangorestframework = "^3.15.2"
+markdown = "^3.7"
+django-filter = "^24.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

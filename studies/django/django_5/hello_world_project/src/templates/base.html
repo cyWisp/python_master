@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <header>
+    <a href="{% url 'home' %}">Home</a> |
+    <a href="{% url 'about' %}">About</a> |
+    <a href="{% url 'contact' %}">Contact</a> |
+    <a href="{% url 'inventory' %}">Inventory</a> |
+  </header>
+
+  {% block content %}
+  {% endblock content %}
+
+  <footer>
+    The current time is {% now "DATETIME_FORMAT" %}
+  </footer>
+</body>
+</html>

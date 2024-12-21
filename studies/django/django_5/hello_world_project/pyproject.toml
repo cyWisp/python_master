@@ -1,9 +1,10 @@
 [tool.poetry]
-name = "realpoetry"
+name = "hello-world-project"
 version = "0.1.0"
 description = ""
 authors = ["cywisp <cywisp@gmail.com>"]
 readme = "README.md"
+packages = [{include = "hello_world_project", from = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.12"
