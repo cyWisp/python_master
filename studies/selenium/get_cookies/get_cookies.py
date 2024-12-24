@@ -2,8 +2,8 @@ from time import sleep
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-USER_NAME = 'roberto.daglio@esimplicity.com'
-PASSWORD = 'LOVEtoCODE69$'
+USER_NAME = 
+PASSWORD = 
 
 if __name__ == '__main__':
 
